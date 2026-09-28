@@ -1,0 +1,46 @@
+Study folder — old (restaurants.js) vs new (Spring API)
+
+These files are NOT wired into App.jsx. Open them side by side in the editor.
+
+Files
+- old-home.jsx / new-home.jsx
+- old-menu.jsx / new-menu.jsx
+- old-dish-restaurants.jsx / new-dish-restaurants.jsx
+- Original data still exists at src/data/restaurants.js
+
+1. Where data lives
+OLD: import { restaurants, dishes } from "../data/restaurants"
+     Array is in the JS file. Change data = edit the file.
+NEW: useState([]) + useEffect + fetch("http://localhost:8080/api/...")
+     Array comes from MySQL via Spring. Change data = change DB / seeder.
+
+2. Home
+OLD: restaurants is imported. Filter runs on that array immediately.
+NEW: restaurants starts as []. After fetch, React re-renders and cards appear.
+     Categories also come from GET /api/categories (not the dishes array).
+
+3. Menu
+OLD: restaurants.find((item) => item.id === id)
+     id was "pizza-palace" (string in the JS file).
+NEW: fetch(`/api/restaurants/${id}`)
+     id is 1, 2, 3 from MySQL.
+     That is why mixing old Menu with new Home showed no menu:
+     Home linked to /restaurant/1 but JS looked for pizza-palace.
+
+4. Loading
+OLD: data is already in memory. No loading screen.
+NEW: first paint is empty/loading, then JSON arrives.
+
+5. foods
+OLD: always on the object in restaurants.js
+NEW: restaurant.foods comes from JPA @OneToMany. Use (restaurant.foods ?? [])
+     in case the list is missing.
+
+6. Same UI
+.filter, .map, Link, ADD/cart stay the same.
+Only the source of the array changed.
+
+Backend map
+GET /api/restaurants        -> Home list
+GET /api/restaurants/{id}   -> Menu page
+GET /api/categories         -> What's on your mind circles
