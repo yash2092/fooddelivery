@@ -5,7 +5,7 @@ import Menu from './pages/Menu'
 import Cart from './pages/Cart'
 import Orders from './pages/Orders.jsx'
 import DishRestaurants from './pages/DishRestaurants'
-import Profile from './pages/profile.jsx'
+import Profile from './pages/Profile.jsx'
 import Search from './pages/Search.jsx'
 import Addresses from './pages/Addresses.jsx'
 
